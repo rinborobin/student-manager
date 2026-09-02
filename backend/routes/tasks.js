@@ -27,16 +27,16 @@ router.get("/", async (req, res) => {
       error(res, "Task not found.", 204);
     }
 
-    success(res, rows, 200);
+    success(res, rows);
   } catch (error) {
-    errorHandler(error, res);
+    next(error);
   }
 });
 
 router.get("/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    const [rows] = await pool.query(
+    const [row] = await pool.query(
       `SELECT
                 t.task_id,
                 t.title,
@@ -54,17 +54,13 @@ router.get("/:id", async (req, res) => {
             WHERE task_id = ?`,
       [id],
     );
-    if (rows.length === 0) {
+    if (row.length === 0) {
       error(res, "Task not found.", 204);
     }
 
-    success(res, rows, 200);
+    success(res, row[0]);
   } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-      error: "Failed to fetch tasks",
-    });
+    next(error);
   }
 });
 
@@ -93,13 +89,9 @@ router.put("/:id", async (req, res) => {
       error(res, "Task not found.", 204);
     }
 
-    success(res, row, 200);
+    success(res, row[0]);
   } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-      error: "Failed to fetch tasks",
-    });
+    next(error);
   }
 });
 
@@ -119,13 +111,9 @@ router.post("/", async (req, res) => {
       error(res, "Task not found.", 204);
     }
 
-    success(res, { courseId: result.insertId }, 201);
+    success(res, { courseId: row.insertId }, 201);
   } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-      error: "Failed to fetch tasks",
-    });
+    next(error);
   }
 });
 
