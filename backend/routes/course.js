@@ -27,7 +27,7 @@ router.get("/:id", async (req, res) => {
     );
 
     if (row.length === 0) {
-      error(res, "Course not found.", 204);
+      return error(res, "Course not found.", 204);
     }
 
     success(res, row[0]);
