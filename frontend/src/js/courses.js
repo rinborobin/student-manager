@@ -1,19 +1,8 @@
 export const courses = [
-  {
-    id: 1,
-    title: "Database System",
-    tasksCount: 0,
-  },
-  {
-    id: 2,
-    title: "Web Development",
-    tasksCount: 0,
-  },
-  {
-    id: 3,
-    title: "Javascript",
-    tasksCount: 0,
-  },
+  { course_id: 2, user_id: 2, title: "Web Development", code: "WEB-009" },
+  { course_id: 2, user_id: 2, title: "Web Development", code: "WEB-009" },
+  { course_id: 2, user_id: 2, title: "Web Development", code: "WEB-009" },
+  { course_id: 2, user_id: 2, title: "Web Development", code: "WEB-009" },
 ];
 
 export function getCourses() {

@@ -1,5 +1,6 @@
 import express from "express";
 import pool from "../db.js";
+import { success } from "../utils/response.js";
 
 const router = express.Router();
 
@@ -22,13 +23,13 @@ router.get("/", async (req, res) => {
                 ON t.course_id = c.course_id
         `);
 
-    res.status(200).json(rows);
-  } catch (error) {
-    console.error(error);
+    if (rows.length === 0) {
+      error(res, "Task not found.", 204);
+    }
 
-    res.status(500).json({
-      error: "Failed to fetch tasks",
-    });
+    success(res, rows, 200);
+  } catch (error) {
+    errorHandler(error, res);
   }
 });
 
@@ -54,9 +55,10 @@ router.get("/:id", async (req, res) => {
       [id],
     );
     if (rows.length === 0) {
-      res.status(204).json(null);
+      error(res, "Task not found.", 204);
     }
-    res.status(200).json(rows);
+
+    success(res, rows, 200);
   } catch (error) {
     console.error(error);
 
@@ -72,7 +74,7 @@ router.put("/:id", async (req, res) => {
     const { courseId, statusId, title, description, dueDate, priority } =
       req.body;
 
-    const [result] = await pool.query(
+    const [row] = await pool.query(
       `
             UPDATE 
                     tasks
@@ -87,7 +89,11 @@ router.put("/:id", async (req, res) => {
       [courseId, statusId, title, description, dueDate, priority, id],
     );
 
-    res.status(200).json({ message: "Task updated", taskId: result.taskId });
+    if (row.length === 0) {
+      error(res, "Task not found.", 204);
+    }
+
+    success(res, row, 200);
   } catch (error) {
     console.error(error);
 
@@ -102,17 +108,18 @@ router.post("/", async (req, res) => {
     const { courseId, statusId, title, description, dueDate, priority } =
       req.body;
 
-    const [result] = await pool.query(
+    const [row] = await pool.query(
       `INSERT INTO tasks
              (course_id, status_id, title, description, due_date, priority)
              VALUES (?, ?, ?, ?, ?, ?)`,
       [courseId, statusId, title, description, dueDate, priority],
     );
 
-    res.status(201).json({
-      message: "Task created",
-      taskId: result.insertId,
-    });
+    if (row.length === 0) {
+      error(res, "Task not found.", 204);
+    }
+
+    success(res, { courseId: result.insertId }, 201);
   } catch (error) {
     console.error(error);
 
@@ -131,20 +138,12 @@ router.delete("/:id", async (req, res) => {
     ]);
 
     if (result.affectedRows === 0) {
-      return res.status(404).json({
-        error: "Task not found",
-      });
+      error(res, "Task not found.", 204);
     }
 
-    res.json({
-      message: "Task deleted",
-    });
+    success(res, "Task deleted", 200);
   } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-      error: "Failed to fetch tasks",
-    });
+    next(error);
   }
 });
 
