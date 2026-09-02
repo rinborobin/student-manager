@@ -5,5 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body></body>
+  <body>
+    <span>Academia Hub</span>
+    <nav
+      class="bg-blue-400 h-[5vh] flex justify-around width-full text-white mb-4"
+    >
+      <button>Dashboard</button>
+      <button>Courses</button>
+      <button>Assigments</button>
+      <button>Calendar</button>
+      <button>Progress</button>
+      <button>Settings</button>
+    </nav>
+    <div class="h-[5vh] flex justify-around width-full">
+      <div class="flex items-center gap-8">
+        <img src="../assets/icons/search.png" class="h-6" alt="search" />
+        <input type="text" placeholder="Search courses, tasks..." />
+      </div>
+      <div class="flex items-center gap-8">
+        <button id="dark-light" class="">
+          <img
+            src="../assets/icons/sleep-mode.png"
+            class="h-6"
+            alt="dark/light mode"
+          />
+        </button>
+        <button>
+          <img src="../assets/icons/bell.png" class="h-6" alt="notification" />
+        </button>
+      </div>
+    </div>
+    <div id="stats" class="flex flex-col p-10"></div>
+    <div class="flex p-4 gap-7">
+      <div class="w-[50vw] flex flex-col gap-3">
+        <span class="text-lg font-medium">Recent Tasks</span>
+
+        <div class="flex flex-col w-[50vw]">
+          <ul id="task-list" class="flex flex-col w-[50vw]"></ul>
+        </div>
+      </div>
+      <div class="flex flex-col gap-3 w-[50vw]">
+        <span class="text-lg font-medium">Course Progress</span>
+
+        <ul id="course-list" class="list-none flex flex-col gap-2"></ul>
+      </div>
+    </div>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script type="module" src="../js/main.js"></script>
 </html>
