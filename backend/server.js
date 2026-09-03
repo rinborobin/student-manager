@@ -6,6 +6,8 @@ const PORT = 3000;
 
 import taskRoute from "./routes/tasks.js";
 import courseRoute from "./routes/course.js";
+import authRoute from "./routes/auth.js";
+
 import errorHandler from "./middleware/errorHandler.js";
 
 app.use(express.json());
@@ -16,6 +18,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/courses", courseRoute);
 app.use("/api/tasks", taskRoute);
+app.use("/api/auth", authRoute);
 
 app.use(errorHandler);
 
