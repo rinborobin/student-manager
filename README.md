@@ -16,10 +16,10 @@ A full-stack Student Task & Course Management System that helps students organiz
 - MySQL database — relational data storage with foreign-key relationships.
 
 ## Installation
-
+Currently working on backend...
 ```bash
 git clone https://github.com/rinborobin/student-manager.git
-cd frontend || backend
+cd backend
 ```
 
 ## Usage
